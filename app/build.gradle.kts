@@ -27,9 +27,9 @@ android {
 
     defaultConfig {
         applicationId = "com.bsbagley.spooler"
-        // POC targets for Android 11+
-        minSdk = 30
-        targetSdk = 30
+        // POC targets for Android 9+
+        minSdk = 28
+        targetSdk = 35
         versionCode = 3
         versionName = "0.2"
     }

@@ -27,6 +27,10 @@ jobs:
       - name: Build debug APK
         run: ./gradlew :app:assembleDebug
 
+      - name: Rename APK
+        run: |
+          mv app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/debug/spooler-0.1-ipcn-b${{ github.run_number }}-android9-debug.apk
+      
       # No release-signing keystore exists yet, so this ships the debug
       # build (debug-key signed). Fine for sideloading on your own device;
       # revisit if this ever needs to go through a store.
@@ -37,4 +41,4 @@ jobs:
           name: "Spooler build #${{ github.run_number }}"
           body: |
             Automated debug build of ${{ github.sha }}.
-          files: app/build/outputs/apk/debug/app-debug.apk
+          files: app/build/outputs/apk/debug/spooler-*.apk
