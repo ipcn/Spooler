@@ -61,7 +61,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
     private val store = ScanHistoryStore(app)
     private val settings = SettingsStore(app)
     private val brandNamesStore = BrandNamesStore(app)
-    private val haptics = Haptics(app)
+//    private val haptics = Haptics(app)
     private val prettyJson = Json { prettyPrint = true }
 
     private val _uiState = MutableStateFlow<ScanUiState>(ScanUiState.Idle)
@@ -112,7 +112,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Entry point from NfcAdapter.ReaderCallback — called on a binder thread. */
     fun onTagScanned(tag: Tag) {
-        haptics.tagDetected()
+//        haptics.tagDetected()
 
         // An armed write claims the tag; otherwise it's a normal read.
         val armed = _writeState.value as? WriteState.Armed
@@ -122,7 +122,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
                 try {
                     TagReader.writeAndVerify(tag, armed.bytes, AnycubicEncoder.START_PAGE)
                     _writeState.value = WriteState.Success("Tag written and verified.")
-                    haptics.success()
+//                    haptics.success()
                     // Show the freshly written tag as a normal scan result.
                     runCatching { readAndRecord(tag) }
                 } catch (e: Exception) {
@@ -130,7 +130,7 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
                         "Write failed (${e.message ?: "connection lost"}). " +
                             "The tag may be write-protected or moved too soon — arm and try again."
                     )
-                    haptics.error()
+//                    haptics.error()
                 }
             }
             return
@@ -141,13 +141,13 @@ class ScanViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 readAndRecord(tag)
-                haptics.success()
+//                haptics.success()
             } catch (e: Exception) {
                 _uiState.value = ScanUiState.Error(
                     "Tag read failed (${e.message ?: "connection lost"}). " +
                         "Hold the tag still against the back of the phone and try again."
                 )
-                haptics.error()
+//                haptics.error()
             }
         }
     }
