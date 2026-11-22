@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.os.Build
 
 /**
  * Haptic feedback for tag interactions. The app suppresses the platform NFC
