@@ -23,13 +23,13 @@ val hasReleaseSigning = releaseKeystoreProps.containsKey("storeFile")
 
 android {
     namespace = "com.bsbagley.spooler"
-    compileSdk = 35
+    compileSdk = 30
 
     defaultConfig {
         applicationId = "com.bsbagley.spooler"
         // POC targets the Pixel 8 Pro only (Android 14+).
-        minSdk = 34
-        targetSdk = 35
+        minSdk = 30
+        targetSdk = 30
         versionCode = 3
         versionName = "0.2"
     }
