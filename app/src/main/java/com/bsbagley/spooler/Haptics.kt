@@ -14,7 +14,14 @@ import android.os.VibratorManager
 class Haptics(context: Context) {
 
     private val vibrator: Vibrator =
-        context.getSystemService(VibratorManager::class.java).defaultVibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val manager = context.getSystemService(VibratorManager::class.java)
+            manager.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            context.getSystemService(Vibrator::class.java)
+                ?: @Suppress("DEPRECATION") context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        }
 
     /** Subtle tick: a tag entered the field and the app is acting on it. */
     fun tagDetected() = play(VibrationEffect.EFFECT_TICK)
@@ -26,7 +33,7 @@ class Haptics(context: Context) {
     fun error() = play(VibrationEffect.EFFECT_DOUBLE_CLICK)
 
     private fun play(effect: Int) {
-        if (vibrator.hasVibrator()) {
+        if (vibrator != null && vibrator.hasVibrator()) {
             vibrator.vibrate(VibrationEffect.createPredefined(effect))
         }
     }
